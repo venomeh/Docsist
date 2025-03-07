@@ -8,7 +8,6 @@ from livekit.agents import (
 )
 from livekit.agents.multimodal import MultimodalAgent
 from livekit.plugins import openai
-from groq_integration import GroqRealtimeModel
 from dotenv import load_dotenv
 import os
 from livekit.plugins.openai import stt
@@ -23,20 +22,15 @@ async def entrypoint(ctx: JobContext):
     await ctx.connect(auto_subscribe=AutoSubscribe.SUBSCRIBE_ALL)
     await ctx.wait_for_participant()
 
-    # model = openai.realtime.RealtimeModel(
-    #     instructions=INSTRUCTIONS,
-    #     voice="coral",
-    #     temperature=0.8,
-    #     modalities=["audio", "text"]
-    # )
-
-    model = GroqRealtimeModel(
+    model = openai.realtime.RealtimeModel(
         instructions=INSTRUCTIONS,
-        voice="default",  # Adjust based on available voices in your TTS implementation
+        voice="shimmer",
         temperature=0.8,
         modalities=["audio", "text"]
     )
 
+   
+   
     assistant_fnc = AssistantFnc()
     
     assistant = MultimodalAgent(model=model,fnc_ctx=assistant_fnc)
