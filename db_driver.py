@@ -13,7 +13,7 @@ class Car:
 class DatabaseDriver:
     def __init__(self, db_path: str="auto_db.sqlite") :
         self.db_path  = db_path
-        self.__init__db()
+        self._init_db()
         
     @contextmanager
     def _get_connection(self):
