@@ -7,9 +7,24 @@ const LiveKitModal = ({ setShowSupport }) => {
 
     const [isSubmittingName, setIsSubmittingName] = useState(true);
     const [name, setName] = useState("");
+    const [token, setToken] = useState(null);
 
-    const handleNameSubmit = () => {
-        setIsSubmittingName(false);
+    const getToken = useCallback(async (username) => {
+        try{
+            const response = await fetch(`/api/getToken?name=${encodeURI(username)}`);
+            const token = await response.text();
+            setToken(token);
+            setIsSubmittingName(false);
+        } catch(error) {
+            console.error(error)
+        }
+    }, []);
+
+    const handleNameSubmit = (e) => {
+        e.preventDefault();
+        if (name.trim()){
+            getToken(name);
+        }
     }
 
 
@@ -19,37 +34,37 @@ const LiveKitModal = ({ setShowSupport }) => {
                 {isSubmittingName ? (
                     <form onSubmit={handleNameSubmit} className="name-form">
                         <h2> Enter your name to connect with support</h2>
-                        <input 
-                            type="text" 
-                            value={name} 
-                            onChange={(e) => setName(e.target.value)} 
-                            placeholder="Your name" 
-                            required 
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Your name"
+                            required
                         />
                         <button type="submit">Connect</button>
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             className="cancel-button"
-                            onClick={()=>setShowSupport(false)}> 
+                            onClick={() => setShowSupport(false)}>
                             Cancel
                         </button>
                     </form>
-                ) : (
+                ) : token ? (
                     <LiveKitRoom
                         serverUrl={import.meta.env.VITE_LIVEKIT_URL}
-                        token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDMxMDcwOTgsImlzcyI6IkFQSUFyaG9CTW5VYmRwdCIsIm5iZiI6MTc0MzEwNjE5OCwic3ViIjoidmVub20iLCJ2aWRlbyI6eyJjYW5QdWJsaXNoIjp0cnVlLCJjYW5QdWJsaXNoRGF0YSI6dHJ1ZSwiY2FuU3Vic2NyaWJlIjp0cnVlLCJyb29tIjoiZG9jc2lzdF9yMSIsInJvb21Kb2luIjp0cnVlfX0.olfzfOKf202UjQEfejaZqzgXE0uzvcRpm5UBOtjfx2A"
+                        token={token}
                         connect={true}
                         video={false}
                         audio={true}
-                        onDisconnected={()=>{
+                        onDisconnected={() => {
                             setShowSupport(false)
                             setIsSubmittingName(true)
-                        }} 
+                        }}
                     >
-                        <RoomAudioRenderer/>
-                        <SimpleVoiceAssistant/>
+                        <RoomAudioRenderer />
+                        <SimpleVoiceAssistant />
                     </LiveKitRoom>
-                )}
+                ) : null}
             </div>
         </div>
     </div>

@@ -24,9 +24,3 @@ dist-ssr
 *.sw?
 public
 .env
-tsconfig.app.json
-tsconfig.json
-tsconfig.node.json
-vite.config.ts
-eslint.config.js
-vite-env.d.ts
