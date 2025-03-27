@@ -33,7 +33,7 @@ async def entrypoint(ctx: JobContext):
    
     assistant_fnc = AssistantFnc()
     
-    assistant = MultimodalAgent(model=model,fnc_ctx=assistant_fnc)
+    assistant = MultimodalAgent(model=model, fnc_ctx=assistant_fnc)
     
     assistant.start(ctx.room)
 
