@@ -3,6 +3,7 @@ import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
 import SimpleVoiceAssistant from "./SimpleVoiceAssistant";
 
+
 const LiveKitModal = ({ setShowSupport }) => {
   const [isSubmittingName, setIsSubmittingName] = useState(true);
   const [name, setName] = useState("");
