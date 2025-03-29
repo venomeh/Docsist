@@ -7,6 +7,3 @@ flask[async]
 flask
 flask-cors
 uvicorn
-groq
-livekit-plugins-deepgram
-openai
